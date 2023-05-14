@@ -5,7 +5,3 @@ ingress-nginx:
       proxy-body-size: 128m
     service:
       externalTrafficPolicy: Local
-      ipFamilyPolicy: RequireDualStack
-      ipFamilies:
-      - IPv4
-      - IPv6
