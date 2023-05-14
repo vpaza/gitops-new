@@ -55,7 +55,7 @@ Add to `argocd-cm` ConfigMap:
           clientSecret: $dex.github.clientSecret
           orgs:
           - name: kzdv
-  url: https://argo.cd.denartcc.org
+  url: https://argo.cd.vzanartcc.net
 ```
 
 Then edit `argocd-secret` Secret:

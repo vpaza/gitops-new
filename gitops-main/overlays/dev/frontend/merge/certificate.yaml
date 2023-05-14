@@ -4,4 +4,4 @@ metadata:
   name: www-denartcc-org-tls
 spec:
   dnsNames:
-  - www.dev.denartcc.org
+  - www.dev.vzanartcc.net

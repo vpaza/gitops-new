@@ -24,14 +24,19 @@ spec:
     spec:
       containers:
       - envFrom:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: secret-database
+              key: DB_USER
         - secretRef:
-            name: auth-env-db
+            name: secret-database
             optional: false
         - secretRef:
-            name: auth-env-vatsim
+            name: secret-auth-vatsim
             optional: false
         - secretRef:
-            name: auth-env-jwks
+            name: secret-auth-jwks
             optional: false
         env:
         - name: APP_ENV

@@ -4,7 +4,7 @@ metadata:
   name: discord-denartcc-org-tls
 spec:
   dnsNames:
-  - discord.denartcc.org
+  - discord.vzanartcc.net
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt

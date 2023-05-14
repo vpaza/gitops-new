@@ -8,12 +8,12 @@ spec:
     aws_key_id:
       valueFrom:
         secretKeyRef:
-          name: logging-s3
+          name: secret-logging-s3
           key: awsAccessKeyId
     aws_sec_key:
       valueFrom:
         secretKeyRef:
-          name: logging-s3
+          name: secret-logging-s3
           key: awsSecretAccessKey
     s3_bucket: logging-zan
     s3_endpoint: https://sfo3.digitaloceanspaces.com

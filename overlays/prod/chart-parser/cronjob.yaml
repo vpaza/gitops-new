@@ -13,7 +13,7 @@ spec:
           containers:
           - envFrom:
             - secretRef:
-                name: api-secrets
+                name: secret-database
                 optional: false
             env:
             - name: STATES

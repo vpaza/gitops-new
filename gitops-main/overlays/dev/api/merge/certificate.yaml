@@ -4,4 +4,4 @@ metadata:
   name: api-denartcc-org-tls
 spec:
   dnsNames:
-  - api.dev.denartcc.org
+  - api.dev.vzanartcc.net

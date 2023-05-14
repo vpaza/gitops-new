@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: api.dev.denartcc.org
+  - host: api.dev.vzanartcc.net
     http:
       paths:
       - backend:
@@ -19,5 +19,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - api.dev.denartcc.org
+    - api.dev.vzanartcc.net
     secretName: api-denartcc-org-tls

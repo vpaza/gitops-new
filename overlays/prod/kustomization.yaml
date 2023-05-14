@@ -17,6 +17,7 @@ resources:
 - chart-parser/cronjob.yaml
 - auth/poddistruptionpolicy.yaml
 - discord/poddistruptionpolicy.yaml
+- external-secrets/external-secrets.yaml
 images:
 - name: adhp/zan-frontend
   newName: adhp/frontend

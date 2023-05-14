@@ -27,10 +27,22 @@ spec:
           value: /etc/zdv-api/config.yaml
         envFrom:
         - secretRef:
-            name: api-secrets
+            name: secret-database
             optional: false
         - secretRef:
-            name: discord-webhooks
+            name: secret-email
+        - secretRef:
+            name: secret-discord
+        - secretRef:
+            name: secret-oauth
+        - secretRef:
+            name: secret-session
+        - secretRef:
+            name: secret-storage
+        - secretRef:
+            name: secret-vatusa
+        - secretRef:
+            name: secret-webhooks
         command:
         - /bin/bash
         - -c

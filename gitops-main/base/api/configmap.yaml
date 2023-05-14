@@ -76,18 +76,18 @@ items:
           name: "{{.SESSION_NAME | default "zdv_session"}}"
           key: "{{.SESSION_KEY | default "zdv_session"}}"
           max_age: 604800
-          domain: "{{.SESSION_DOMAIN | default ".denartcc.org"}}"
+          domain: "{{.SESSION_DOMAIN | default ".vzanartcc.net"}}"
           path: "/"
           same_site: "none"
       storage:
-        base_url: {{.STORAGE_BASE_URL | default "https://cdn.denartcc.org" }}
+        base_url: {{.STORAGE_BASE_URL | default "https://cdn.vzanartcc.net" }}
         access_key: {{.STORAGE_ACCESS_KEY | default "12345"}}
         secret_key: {{.STORAGE_SECRET_KEY | default "12345"}}
         bucket: {{.STORAGE_BUCKET | default "denartcc"}}
         region: {{.STORAGE_REGION | default "us-east-1"}}
         endpoint: {{.STORAGE_ENDPOINT | default ""}}
       oauth:
-        base_URL: "https://auth.denartcc.org"
+        base_URL: "https://auth.vzanartcc.net"
         endpoints:
           token: "/oauth/token"
           user: "/v1/info"

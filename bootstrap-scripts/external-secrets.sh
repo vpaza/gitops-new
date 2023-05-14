@@ -21,7 +21,7 @@ kubectl rollout status deployment/external-secrets-webhook -n external-secrets
 # Create Secret Store
 cat <<EOF | kubectl apply -f -
 apiVersion: external-secrets.io/v1beta1
-kind: SecretStore
+kind: ClusterSecretStore
 metadata:
   name: gcp-store
 spec:
@@ -32,5 +32,6 @@ spec:
             secretAccessKeySecretRef:
               name: gcpsm-secret
               key: secret-access-credentials
+              namespace: external-secrets
         projectID: adhp-386716
 EOF

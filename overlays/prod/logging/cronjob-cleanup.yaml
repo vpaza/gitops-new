@@ -43,12 +43,12 @@ spec:
             - name: AWS_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: logging-s3
+                  name: secret-logging-s3
                   key: awsAccessKeyId
             - name: AWS_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: logging-s3
+                  name: secret-logging-s3
                   key: awsSecretAccessKey
             - name: AWS_ENDPOINT
               value: sfo3.digitaloceanspaces.com

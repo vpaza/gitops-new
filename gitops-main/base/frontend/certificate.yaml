@@ -4,9 +4,9 @@ metadata:
   name: www-denartcc-org-tls
 spec:
   dnsNames:
-  - www.denartcc.org
-  - denartcc.org
-  - new.denartcc.org
+  - www.vzanartcc.net
+  - vzanartcc.net
+  - new.vzanartcc.net
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt
