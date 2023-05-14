@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: discord-ingress
+  labels:
+    app: discord
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: discord.vzanartcc.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: discord-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - discord.vzanartcc.net
+    secretName: discord-vzanartcc-net-tls

@@ -1,0 +1,25 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+  name: s3-output
+  namespace: zan
+spec:
+  s3:
+    aws_key_id:
+      valueFrom:
+        secretKeyRef:
+          name: logging-s3
+          key: awsAccessKeyId
+    aws_sec_key:
+      valueFrom:
+        secretKeyRef:
+          name: logging-s3
+          key: awsSecretAccessKey
+    s3_bucket: logging-zan
+    s3_endpoint: https://sfo3.digitaloceanspaces.com
+    s3_region: us-east-1
+    path: logs/%Y-%m-%d/${tag}/
+    buffer:
+      timekey: 60m
+      timekey_wait: 30s
+      timekey_use_utc: true

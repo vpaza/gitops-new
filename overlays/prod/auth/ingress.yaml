@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth
+  namespace: zan
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: auth.vzanartcc.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: auth
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - auth.vzanartcc.net
+    secretName: tls-auth-vzanartcc-net

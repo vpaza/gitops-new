@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-ingress
+  labels:
+    app: www
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.vzanartcc.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: www-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: vzanartcc.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: www-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - www.vzanartcc.net
+    - vzanartcc.net
+    secretName: www-vzanartcc-net-tls

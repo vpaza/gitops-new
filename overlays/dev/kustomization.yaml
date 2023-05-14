@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+- namespace.yaml
+images:
+- name: adhp/zan-frontend
+  newName: adhp/frontend
+  newTag: zan-main-1e7cb89
+- name: denartcc/api
+  newName: adhp/api
+  newTag: dev-0adad52
+patchesStrategicMerge:
+- api/merge/certificate.yaml
+- api/merge/ingress.yaml
+- frontend/merge/certificate.yaml
+- frontend/merge/ingress.yaml

@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: discord-vzanartcc-net-tls
+spec:
+  dnsNames:
+  - discord.vzanartcc.net
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: discord-vzanartcc-net-tls
