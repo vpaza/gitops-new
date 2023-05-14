@@ -7,4 +7,5 @@ resources:
 - base/argocd-ingress.yaml
 - base/argocd-rbac-cm.yaml
 - base/cert-manager-ClusterIssuer.yaml
+- base/cert-manager-external-secret.yaml
 - base/logging.yaml
