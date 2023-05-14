@@ -3,15 +3,13 @@ kind: Kustomization
 metadata:
   name: base-kzdv
 resources:
-- api/configmap.yaml
 - api/certificate.yaml
+- api/configmap.yaml
+- api/email_templates.yaml
 - api/deployment.yaml
-- api/email-templates.yaml
-- api/poddistruptionpolicy.yaml
 - api/service.yaml
 - api/ingress.yaml
 - frontend/certificate.yaml
 - frontend/deployment.yaml
-- frontend/ingress.yaml
-- frontend/poddistruptionpolicy.yaml
 - frontend/service.yaml
+- frontend/ingress.yaml

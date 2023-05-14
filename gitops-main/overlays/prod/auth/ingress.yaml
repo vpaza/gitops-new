@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: auth.denartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: auth
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - auth.denartcc.org
+    secretName: tls-auth-denartcc-org

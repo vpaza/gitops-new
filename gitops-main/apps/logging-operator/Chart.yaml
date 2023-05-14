@@ -1,0 +1,12 @@
+apiVersion: v2
+name: logging-operator
+description: Logging Operator
+
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+
+dependencies:
+  - name: logging-operator
+    version: 3.17.10
+    repository: https://kubernetes-charts.banzaicloud.com

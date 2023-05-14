@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: discord
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: discord.denartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: discord
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - discord.denartcc.org
+    secretName: tls-discord-denartcc-org

@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      initContainers:
+      - name: config
+        image: denartcc/api:fe44c92
+        imagePullPolicy: Always
+        env:
+        - name: CONFIGMAP_PATH
+          value: /tmp/config-map/config.yaml
+        - name: DEFAULT_CONFIGMAP
+          value: /app/config.yaml.default
+        - name: ENV_PATH
+          value: /app
+        - name: CONFIG
+          value: /etc/zdv-api/config.yaml
+        envFrom:
+        - secretRef:
+            name: api-secrets
+            optional: false
+        - secretRef:
+            name: discord-webhooks
+        command:
+        - /bin/bash
+        - -c
+        - |-
+          /bin/bash /app/init.sh
+          cat /etc/zdv-api/config.yaml
+        volumeMounts:
+        - name: config
+          mountPath: /etc/zdv-api
+        - name: config-map
+          mountPath: /tmp/config-map
+      containers:
+      - name: api
+        image: denartcc/api:fe44c92
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        command: ["/app/api"]
+        args:
+          - server
+          - --config
+          - /etc/zdv-api/config.yaml
+        volumeMounts:
+        - name: config
+          mountPath: /etc/zdv-api
+        - name: email-templates
+          mountPath: /app/templates
+        resources:
+          requests:
+            cpu: 20m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 512Mi
+      volumes:
+      - name: config
+        emptyDir: {}
+      - name: config-map
+        configMap:
+          name: api-config
+      - name: email-templates
+        configMap:
+          name: email-templates

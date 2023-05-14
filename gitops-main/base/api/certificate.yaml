@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-denartcc-org-tls
+spec:
+  dnsNames:
+  - api.denartcc.org
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: api-denartcc-org-tls

@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup
+  namespace: mysql
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              mkdir ~/.aws
+              cat <<EOF >~/.aws/config
+              [default]
+              output = json
+              region = us-east-1
+              EOF
+              cat <<EOF >~/.aws/credentials
+              [default]
+              aws_access_key_id = ${AWS_ACCESS_KEY}
+              aws_secret_access_key = ${AWS_SECRET_KEY}
+              EOF
+              set -x
+              bktime=$(date +%Y-%m-%d-%H-%M-%S)
+              mkdir /tmp/backups
+              pushd /tmp/backups
+              databases=(zdv zdvdev)
+              for db in "${databases[@]}"; do
+                  mysqldump -h "$MYSQL_HOST" -u "$MYSQL_USER" "$db" > "$db.sql"
+              done
+              tar -czf ../backup-$bktime.tgz .
+              aws s3 --endpoint=https://${AWS_ENDPOINT} cp ../backup-$bktime.tgz s3://${AWS_BUCKET}/mysql/backup-ng-$bktime.tgz
+              aws s3 --endpoint=https://${AWS_ENDPOINT} ls s3://${AWS_BUCKET}/mysql/ | while read -r line; do
+                  createDate=`echo $line|awk {'print $1" "$2'}`
+                  createDate=`date -d"$createDate" +%s`
+                  olderThan=`date --date "30 days ago" +%s`
+                  if [[ $createDate -lt $olderThan ]]; then
+                      filename=`echo $line|awk {'print $4'}`
+                      if [[ ! -z "$filename" ]]; then
+                          aws s3 --endpoint=https://${AWS_ENDPOINT} rm s3://${AWS_BUCKET}/mysql/$filename
+                      fi
+                  fi
+              done
+            envFrom:
+            - secretRef:
+                name: mysql-backup-credentials
+                optional: false
+            image: denartcc/cli:v1.1.2-1
+            imagePullPolicy: Always
+            name: backup
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+  schedule: 0 0 * * *
+  successfulJobsHistoryLimit: 3
+  suspend: false

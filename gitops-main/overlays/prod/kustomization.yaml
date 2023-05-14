@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- namespace.yaml
 - ../../base
 - auth/certificate.yaml
 - auth/deployment.yaml
@@ -8,22 +9,22 @@ resources:
 - auth/service.yaml
 - discord/certificate.yaml
 - discord/deployment.yaml
-- discord/service.yaml
 - discord/ingress.yaml
-- logging/logging.yaml
-- logging/flow.yaml
-- logging/output.yaml
-- logging/cronjob-cleanup.yaml
+- discord/service.yaml
+- mysql-backup/cronjob.yaml
+- bot/deployment.yaml
+- roster-sync/cronjob.yaml
 - chart-parser/cronjob.yaml
-- auth/poddistruptionpolicy.yaml
-- discord/poddistruptionpolicy.yaml
 images:
-- name: adhp/zan-frontend
+- name: adhp/zdv-frontend
   newName: adhp/frontend
-  newTag: zan-v1.6.1683522948.20-1e7cb89
+  newTag: zdv-v1.6.1683522948.20-1e7cb89
 - name: denartcc/api
   newName: adhp/api
-  newTag: main-e9d09c0
+  newTag: main-9d237f0
+- name: denartcc/bot
+  newName: adhp/bot
+  newTag: main-3ac612f
 - name: vzanartcc/auth
   newName: adhp/auth
-  newTag: df0fe4b
+  newTag: 72032a6

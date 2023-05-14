@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+images:
+- name: adhp/zdv-frontend
+  newName: adhp/frontend
+  newTag: zdv-main-1d72049
+- name: denartcc/api
+  newName: adhp/api
+  newTag: dev-b1a016d
+patchesStrategicMerge:
+- api/merge/certificate.yaml
+- api/merge/ingress.yaml
+- frontend/merge/certificate.yaml
+- frontend/merge/ingress.yaml

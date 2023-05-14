@@ -1,0 +1,150 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: syncdb
+  namespace: mysql
+spec:
+  schedule: "0 1 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: "sync"
+            image: denartcc/cli:v1.1.2-1
+            imagePullPolicy: Always
+            command:
+            - /bin/bash
+            - -c
+            - |
+              set -ex
+              mkdir ~/.aws
+              cat <<EOF >~/.aws/config
+              [default]
+              output = json
+              region = us-east-1
+              EOF
+              cat <<EOF >~/.aws/credentials
+              [default]
+              aws_access_key_id = ${AWS_ACCESS_KEY}
+              aws_secret_access_key = ${AWS_SECRET_KEY}
+              EOF
+
+              aws s3 --endpoint=https://${AWS_ENDPOINT} ls s3://${AWS_BUCKET}/mysql/ | sort | tail -n 10
+
+              aws s3 --endpoint=https://${AWS_ENDPOINT} ls s3://${AWS_BUCKET}/mysql/ | sort | tail -n 10 | awk '{print $4}'
+
+              backup=$(aws s3 --endpoint=https://${AWS_ENDPOINT} ls s3://${AWS_BUCKET}/mysql/ | sort | tail -n 1 | awk '{print $4}')
+              aws s3 --endpoint=https://${AWS_ENDPOINT} cp s3://${AWS_BUCKET}/mysql/$backup /tmp/backup.tgz
+
+              pushd /tmp
+              tar -xzf backup.tgz
+
+              # Deploy backup so we can convert it....
+              mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST -e "DROP DATABASE IF EXISTS prod_site"
+              mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST -e "CREATE DATABASE prod_site"
+              mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST prod_site < prod_site.sql
+              mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST zdvdev -e 'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE `users`;'
+              mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST zdv -e 'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE `users`;'
+
+              # Read from the backup and write to the new database
+              while IFS=$'\t' read id firstname lastname email initials rating_id canTrain visitor visitorfrom discord status max remember_token loa del gnd twr app ctr ots created_at updated_at; do
+                del_major="none"
+                gnd_major="none"
+                twr_major="none"
+                app_major="none"
+
+                if [[ $initials == "NULL" ]]; then
+                  initials=""
+                fi
+                
+                case $del in
+                  5) 
+                    del="certified"
+                    del_major="certified";;
+                  4) 
+                    del="certified"
+                    del_major="solo";;
+                  3) del="certified";;
+                  2) del="solo";;
+                  1) del="training";;
+                  0) del="none";;
+                  *) del="none";;
+                esac
+
+                case $gnd in
+                  5) 
+                    gnd="certified"
+                    gnd_major="certified";;
+                  4) 
+                    gnd="certified"
+                    gnd_major="solo";;
+                  3) gnd="certified";;
+                  2) gnd="solo";;
+                  1) gnd="training";;
+                  0) gnd="none";;
+                  *) gnd="none";;
+                esac
+
+                case $twr in
+                  5) 
+                    twr="certified"
+                    twr_major="certified";;
+                  4) 
+                    twr="certified"
+                    twr_major="solo";;
+                  3) twr="certified";;
+                  2) twr="solo";;
+                  1) twr="training";;
+                  0) twr="none";;
+                  *) twr="none";;
+                esac
+
+                case $app in
+                  5) 
+                    app="certified"
+                    app_major="certified";;
+                  4) 
+                    app="certified"
+                    app_major="solo";;
+                  3) app="certified";;
+                  2) app="solo";;
+                  1) app="training";;
+                  0) app="none";;
+                  *) app="none";;
+                esac
+
+                case $ctr in
+                  5) ctr="certified";;
+                  4) ctr="certified";;
+                  3) ctr="certified";;
+                  2) ctr="solo";;
+                  1) ctr="training";;
+                  0) ctr="none";;
+                  *) ctr="none";;
+                esac
+
+
+                if [[ "$visitor" == "0" && "$status" == "0" ]]; then
+                  status="active"
+                  controllertype="home"
+                elif [[ "$visitor" == "1" && "$status" == "0" ]]; then
+                  status="active"
+                  controllertype="home"
+                else
+                  status="none"
+                  controllertype="none"
+                fi
+                
+                if [[ "$loa" == "1" ]]; then
+                  status="loa"
+                fi
+
+                mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST zdvdev -e "INSERT INTO users (c_id, first_name, last_name, email, operating_initials, rating_id, discord_id, status, controller_type, gnd_certification, major_gnd_certification, lcl_certification, major_lcl_certification, app_certification, major_app_certification, ctr_certification, created_at, updated_at) VALUES (\"$id\", \"$firstname\", \"$lastname\", \"$email\", \"$initials\", \"$rating_id\", \"$discord\", \"$status\", \"$controllertype\", \"$gnd\", \"$gnd_major\", \"$twr\", \"$twr_major\", \"$app\", \"$app_major\", \"$ctr\", \"$created_at\", \"$updated_at\")"
+                mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST zdv -e "INSERT INTO users (c_id, first_name, last_name, email, operating_initials, rating_id, discord_id, status, controller_type, gnd_certification, major_gnd_certification, lcl_certification, major_lcl_certification, app_certification, major_app_certification, ctr_certification, created_at, updated_at) VALUES (\"$id\", \"$firstname\", \"$lastname\", \"$email\", \"$initials\", \"$rating_id\", \"$discord\", \"$status\", \"$controllertype\", \"$gnd\", \"$gnd_major\", \"$twr\", \"$twr_major\", \"$app\", \"$app_major\", \"$ctr\", \"$created_at\", \"$updated_at\")"
+              done < <(mysql -u$MYSQL_USER -p$MYSQL_PWD -h$MYSQL_HOST prod_site -se "SELECT * FROM roster;")
+            envFrom:
+            - secretRef:
+                name: mysql-backup-credentials
+                optional: false

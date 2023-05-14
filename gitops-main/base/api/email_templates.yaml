@@ -1,0 +1,126 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: email-templates
+data:
+  inactive_warning.tmpl: |
+    Subject: You are about to be inactive
+    BCC:
+    - seniorstaff@denartcc.org
+    Body: |
+      Dear {{.FirstName}} {{.LastName}},
+
+      <p>This is a warning that you have not yet controlled the minimum number of hours during the activity as
+      required by the Denver ARTCC Facility Administrative Policy (7210.1).  Per the policy, controllers must control 
+      no less than 2 hours per 2 month period.</p>
+
+      <p>If, on the first of the month, this requirement is not met, you will be marked inactive and are subject to
+      removal from the roster. If you are unable to meet this requirement, please contact the Senior Staff to request
+      a leave of absense. They may be contacted by emailing seniorstaff@denartcc.org.</p>
+
+      <p>Thanks,<br>
+      {{- range $atm := findRole "atm"  -}}
+      {{ $atm }}<br>
+      {{- end -}}
+      {{- range $datm := findRole "datm"  -}}
+      {{ $datm }}<br>
+      {{- end -}}
+      Denver ARTCC, VATUSA<br>
+      https://denartcc.org</p>
+  inactive.tmpl: |
+    Subject: You are inactive
+    BCC:
+    - seniorstaff@denartcc.org
+    Body: |
+      Dear {{.FirstName}} {{.LastName}},
+
+      <p>This is an email notification to inform you that you have not met the minimum activity requirements as set forth
+      by the Denver ARTCC Facility Administrative Policy (7210.1).  Per the policy, controllers must control no less than 2
+      hours per 2 month period. You have been marked inactive on the roster and are subject to removal for Inactivity.</p>
+
+      <p>If you require a Leave of Absense, please contact the Senior Staff as soon as possible. They may be contacted by
+      emailing seniorstaff@denartcc.org.</p>
+
+      <p>Thanks,<br>
+      {{- range $atm := findRole "atm" -}}
+      {{ $atm }}<br>
+      {{- end -}}
+      {{- range $datm := findRole "datm"  -}}
+      {{ $datm }}<br>
+      {{- end -}}
+      Denver ARTCC, VATUSA<br>
+      https://denartcc.org</p>
+  visiting_rejected.tmpl: |
+    Subject: Your visiting controller request has been rejected
+    BCC:
+    - seniorstaff@denartcc.org
+    Body: |
+      Dear {{.FirstName}} {{.LastName}},
+
+      <p>This email is to notify you that your request to join the Denver ARTCC Visiting Controller Roster has been
+      rejected. If you feel this was done in error, please reach out to the Denver ARTCC Senior Staff by emailing
+      seniorstaff@denartcc.org.</p>
+
+      <p>The general reason applications are rejected are due to you not meeting the minimum requirements as listed on the
+      website.</p>
+
+      <p>Regards,<br>
+      {{- range $atm := findRole "atm"  -}}
+      {{ $atm }}<br>
+      {{- end -}}
+      {{- range $datm := findRole "datm"  -}}
+      {{ $datm }}<br>
+      {{- end -}}
+      Denver ARTCC, VATUSA<br>
+      https://denartcc.org</p>
+  visiting_added.tmpl: |
+    Subject: You have been added to the visiting controller roster
+    BCC:
+    - seniorstaff@denartcc.org
+    Body: |
+      Dear {{.FirstName}} {{.LastName}},
+
+      <p>This email is to notify you that you have been added to the Denver ARTCC Visiting Controller Roster.</p>
+
+      <p>We are thrilled to welcome you to Denver ARTCC on VATSIM, home to some of the most exciting airports in North America.
+      With Denver International Airport being the second-largest airport globally by area, Telluride Regional Airport known as 
+      the highest commercial airport in North America, and Eagle County Airport being one of the most extreme airports worldwide, 
+      we're sure you'll have a fantastic experience.</p>
+
+      <p>To get started, please visit our website at https://denartcc.org and log in using your VATSIM account. Our primary 
+      communication platform is Discord, so if you don't already have it, please download it from this link. After downloading, 
+      join our Discord server here: https://vats.im/zdvdiscord, and then link your Discord account to your ZDV 
+      account by visiting https://discord.denartcc.org.</p>
+
+      <p>Next, please review the Denver ARTCC Policies by visiting our website at https://denartcc.org.</p>
+
+      <p>Lastly, when you are ready, please visit https://www.picktime.com/vzdv to begin scheduling your visitor checkout.</p>
+
+      <p>We look forward to controlling with you and hope to see you soon!<br>
+      {{- range $atm := findRole "atm"  -}}
+      {{ $atm }}<br>
+      {{- end -}}
+      {{- range $datm := findRole "datm"  -}}
+      {{ $datm }}<br>
+      {{- end -}}
+      Denver ARTCC, VATUSA<br>
+      https://denartcc.org</p>
+  visiting_removed.tmpl: |
+    Subject: You have been removed from the visiting controller roster
+    BCC:
+    - seniorstaff@denartcc.org
+    Body: |
+      Dear {{.FirstName}} {{.LastName}}
+
+      <p>This is notification that you have been removed from the Denver ARTCC Visiting Controller Roster. If you feel this
+      was done in error, please reach out to the Denver ARTCC Senior Staff by emailing seniorstaff@denartcc.org.</p>
+
+      <p>Regards,<br>
+      {{- range $atm := findRole "atm"  -}}
+      {{ $atm }}<br>
+      {{- end -}}
+      {{- range $datm := findRole "datm"  -}}
+      {{ $datm }}<br>
+      {{- end -}}
+      Denver ARTCC, VATUSA<br>
+      https://denartcc.org</p>

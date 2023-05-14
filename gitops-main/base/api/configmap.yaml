@@ -1,0 +1,111 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    config.yaml: |
+      server:
+        port: 3000
+        host: 127.0.0.1
+      database:
+        host: {{.DB_HOST | default "mysql.mysql.svc.cluster.local"}}
+        port: {{.DB_PORT | default "3306"}}
+        user: {{.DB_USER | default "root"}}
+        password: {{.DB_PASSWORD | default "root"}}
+        database: {{.DB_DATABASE | default "zdv"}}
+        ca_cert: {{.DB_CA_CERT | default ""}}
+        automigrate: true
+      discord:
+        webhooks:
+          pending_feedback: {{.DISCORD_WEBHOOK_PENDING_FEEDBACK}}
+          broadcast_feedback: {{.DISCORD_WEBHOOK_BROADCAST_FEEDBACK}}
+          uploads: {{.DISCORD_WEBHOOK_UPLOADS}}
+          role: {{.DISCORD_WEBHOOK_ROLE}}
+          visiting_application: {{.DISCORD_WEBHOOK_VISITING_APPLICATION}}
+          seniorstaff: {{.DISCORD_WEBHOOK_SENIORSTAFF}}
+          online: {{.DISCORD_WEBHOOK_ONLINE}}
+          default: {{.DISCORD_WEBHOOK_DEFAULT}}
+        client_id: {{.DISCORD_CLIENT_ID}}
+        client_secret: {{.DISCORD_CLIENT_SECRET}}
+      email:
+        host: {{.EMAIL_HOST | default "localhost"}}
+        port: {{.EMAIL_PORT | default "25"}}
+        user: {{.EMAIL_USER | default "root"}}
+        password: {{.EMAIL_PASSWORD | default "root"}}
+        from: {{.EMAIL_FROM | default "root@localhost"}}
+        template_dir: "/app/templates"
+      facility:
+        activity:
+          enabled: false
+          min_hours: 2
+          period: 2
+          run_on_day: 1
+          run_at_hour: 0
+          run_at_minute: 0
+        feedback:
+          discord_webhook_name: "feedback"
+        visiting:
+          discord_webhook_name: "visitor"
+          rating_min: S1
+          send_welcome: false
+          send_removal: false
+          send_rejected: false
+        stats:
+          enabled: true
+          discord_broadcast: true
+          discord_broadcast_webhook_name: "online"
+          prefixes:
+          - APA
+          - ASE
+          - BJC
+          - BKF
+          - CFO
+          - COS
+          - CPR
+          - CYS
+          - DEN
+          - EGE
+          - FMN
+          - FNL
+          - GJT
+          - GUR
+          - PUB
+          - RAP
+          - RCA
+      session:
+        cookie:
+          name: "{{.SESSION_NAME | default "zdv_session"}}"
+          key: "{{.SESSION_KEY | default "zdv_session"}}"
+          max_age: 604800
+          domain: "{{.SESSION_DOMAIN | default ".denartcc.org"}}"
+          path: "/"
+          same_site: "none"
+      storage:
+        base_url: {{.STORAGE_BASE_URL | default "https://cdn.denartcc.org" }}
+        access_key: {{.STORAGE_ACCESS_KEY | default "12345"}}
+        secret_key: {{.STORAGE_SECRET_KEY | default "12345"}}
+        bucket: {{.STORAGE_BUCKET | default "denartcc"}}
+        region: {{.STORAGE_REGION | default "us-east-1"}}
+        endpoint: {{.STORAGE_ENDPOINT | default ""}}
+      oauth:
+        base_URL: "https://auth.denartcc.org"
+        endpoints:
+          token: "/oauth/token"
+          user: "/v1/info"
+          authorize: "/oauth/authorize"
+        client_id: "{{.OAUTH_CLIENT_ID | default "zdv"}}"
+        client_secret: "{{.OAUTH_CLIENT_SECRET | default "zdv"}}"
+        my_base_URL: "{{.OAUTH_MY_BASE_URL | default "https://api.dev.vzanartcc.net" }}"
+      vatusa:
+        facility: "ZDV"
+        api_key: "{{.VATUSA_API_KEY | default "zdv"}}"
+        test_mode: {{.VATUSA_TEST_MODE | default false }}
+      metrics:
+        enabled: true
+        port: 8080
+        path: /metrics
+  kind: ConfigMap
+  metadata:
+    name: api-config
+kind: List
+metadata:
+  resourceVersion: ""

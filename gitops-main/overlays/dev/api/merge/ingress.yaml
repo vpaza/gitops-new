@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  labels:
+    app: api
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: api.dev.denartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: api-service
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - api.dev.denartcc.org
+    secretName: api-denartcc-org-tls
