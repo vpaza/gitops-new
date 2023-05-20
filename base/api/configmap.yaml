@@ -41,7 +41,7 @@ data:
         run_at_minute: 0
       feedback:
         discord_webhook_name: "feedback"
-      frontend_url: {{.FRONTEND_URL | default "https://www.vzanartcc.net" }}
+      frontend_url: {{.FRONTEND_URL | default "https://www.zanartcc.org" }}
       training_requests:
         enabled: true
         positions:
@@ -94,10 +94,10 @@ data:
         name: "{{.SESSION_NAME | default "zan_session"}}"
         key: "{{.SESSION_KEY | default "zan_session"}}"
         max_age: 604800
-        domain: "{{.SESSION_DOMAIN | default ".vzanartcc.net"}}"
+        domain: "{{.SESSION_DOMAIN | default ".vanartcc.org"}}"
         path: "/"
     storage:
-      base_url: {{.STORAGE_BASE_URL | default "https://cdn.vzanartcc.net" }}
+      base_url: {{.STORAGE_BASE_URL | default "https://cdn.zanartcc.org" }}
       access_key: {{.STORAGE_ACCESS_KEY | default "12345"}}
       secret_key: {{.STORAGE_SECRET_KEY | default "12345"}}
       bucket: {{.STORAGE_BUCKET | default "denartcc"}}
@@ -111,7 +111,7 @@ data:
         authorize: "/oauth/authorize"
       client_id: "{{.OAUTH_CLIENT_ID | default "zan"}}"
       client_secret: "{{.OAUTH_CLIENT_SECRET | default "zan"}}"
-      my_base_URL: "{{.OAUTH_MY_BASE_URL | default "https://api.dev.vzanartcc.net" }}"
+      my_base_URL: "{{.OAUTH_MY_BASE_URL | default "https://api.dev.zanartcc.org" }}"
     vatusa:
       facility: "ZAN"
       api_key: "{{.VATUSA_API_KEY | default "zan"}}"
