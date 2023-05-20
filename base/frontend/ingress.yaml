@@ -7,6 +7,26 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
+  - host: www.zanartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: www-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: zanartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: www-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
   - host: www.vzanartcc.net
     http:
       paths:
