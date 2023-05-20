@@ -31,4 +31,6 @@ spec:
   - hosts:
     - www.vzanartcc.net
     - vzanartcc.net
+    - www.zanartcc.org
+    - zanartcc.org
     secretName: www-vzanartcc-net-tls

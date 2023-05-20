@@ -17,7 +17,20 @@ spec:
               number: 3000
         path: /
         pathType: Prefix
+  - host: api.zanartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: api-service
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
   tls:
+  - hosts:
+    - api.zanartcc.org
+    secretName: api-zanartcc-org-tls
   - hosts:
     - api.vzanartcc.net
     secretName: api-vzanartcc-net-tls

@@ -6,6 +6,8 @@ spec:
   dnsNames:
   - www.vzanartcc.net
   - vzanartcc.net
+  - www.zanartcc.org
+  - zanartcc.org
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt

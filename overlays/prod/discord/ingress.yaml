@@ -17,7 +17,18 @@ spec:
               number: 80
         path: /
         pathType: Prefix
+  - host: discord.zanartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: discord-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
   tls:
   - hosts:
     - discord.vzanartcc.net
+    - discord.zanartcc.org
     secretName: discord-vzanartcc-net-tls
