@@ -6,7 +6,7 @@ data:
       host: 127.0.0.1
     database:
       host: {{.DB_HOST | default "mysql.mysql.svc.cluster.local"}}
-      port: 25060
+      port: 3306
       user: {{.DB_USER | default "root"}}
       password: {{.DB_PASSWORD | default "root"}}
       database: {{.DB_DATABASE | default "zan"}}
