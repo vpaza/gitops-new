@@ -24,10 +24,6 @@ spec:
     spec:
       containers:
       - envFrom:
-        - name: DB_USERNAME
-          secretKeyRef:
-            name: secret-database
-            key: DB_USER
         - secretRef:
             name: secret-database
             optional: false
@@ -38,6 +34,11 @@ spec:
             name: secret-auth-jwks
             optional: false
         env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: secret-database
+              key: DB_USER
         - name: APP_ENV
           value: production
         image: vzanartcc/auth:debug
