@@ -25,10 +25,9 @@ spec:
       containers:
       - envFrom:
         - name: DB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: secret-database
-              key: DB_USER
+          secretKeyRef:
+            name: secret-database
+            key: DB_USER
         - secretRef:
             name: secret-database
             optional: false
