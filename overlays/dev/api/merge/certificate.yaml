@@ -5,3 +5,4 @@ metadata:
 spec:
   dnsNames:
   - api.dev.vzanartcc.net
+  - api.dev.zanartcc.org

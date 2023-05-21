@@ -17,7 +17,18 @@ spec:
               number: 80
         path: /
         pathType: Prefix
+  - host: www.dev.zanartcc.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: www-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
   tls:
   - hosts:
     - www.dev.vzanartcc.net
+    - www.dev.zanartcc.org
     secretName: www-vzanartcc-net-tls
