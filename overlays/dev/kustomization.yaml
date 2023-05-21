@@ -7,7 +7,7 @@ resources:
 images:
 - name: adhp/zan-frontend
   newName: adhp/frontend
-  newTag: zan-main-df8bc03
+  newTag: zan-main-a019e9e
 - name: denartcc/api
   newName: adhp/api
   newTag: dev-6de2c0d
