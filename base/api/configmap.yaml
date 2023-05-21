@@ -94,7 +94,7 @@ data:
         name: "{{.SESSION_NAME | default "zan_session"}}"
         key: "{{.SESSION_KEY | default "zan_session"}}"
         max_age: 604800
-        domain: "{{.SESSION_DOMAIN | default ".vanartcc.org"}}"
+        domain: "{{.SESSION_DOMAIN | default ".zanartcc.org"}}"
         path: "/"
     storage:
       base_url: {{.STORAGE_BASE_URL | default "https://cdn.zanartcc.org" }}
