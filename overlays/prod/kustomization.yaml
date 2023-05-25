@@ -24,7 +24,7 @@ images:
   newTag: zan-v1.6.1684686389.23-a019e9e
 - name: denartcc/api
   newName: adhp/api
-  newTag: main-38e88a7
+  newTag: main-93992c3
 - name: vzanartcc/auth
   newName: adhp/auth
   newTag: df0fe4b
