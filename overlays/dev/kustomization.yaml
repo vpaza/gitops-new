@@ -10,7 +10,7 @@ images:
   newTag: zan-main-a019e9e
 - name: denartcc/api
   newName: adhp/api
-  newTag: dev-6de2c0d
+  newTag: dev-006e8fe
 patchesStrategicMerge:
 - api/merge/certificate.yaml
 - api/merge/ingress.yaml
